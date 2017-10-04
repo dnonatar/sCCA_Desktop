@@ -1,0 +1,31 @@
+
+		<!-- Main -->
+			<article id="main">
+
+			  <header class="special container">
+			    <span class="icon kmrn fa-tasks"></span>
+			    <h2>Job Status</h2><hr>
+			    {% if rows[0][0] == "Incomplete" %}
+			    The job below is still in progress, please come back in a few minutes and refresh the page to see if your job has completed.
+			    {% else %}
+			    Your job is <strong>done!</strong> <a href="results?id={{id}}">Click here </a> to view the results of the below job.
+			    {% endif %}
+			    <br />
+			    <br />
+
+			<table>
+			  <tr>
+				  <th>Status</th><th>Name</th><th>Email</th><th>Project</th>
+			  </tr>
+			  {%- for row in rows %}
+			    <tr>
+			    {%- for col in row %}
+			    <td>{{col}}</td>
+			    {%- endfor %}
+			    </tr>
+			  {%- endfor %}
+			  </table>
+
+			</header>
+		    </article>
+{% endblock %}

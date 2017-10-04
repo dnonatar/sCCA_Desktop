@@ -1,0 +1,118 @@
+
+{% block title %} CTEHR Compute {% endblock %}
+{% block content %}
+		<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon kmrn fa-upload"></span>
+					<h2>Sequencing Classification</h2>
+					Please follow the instructions below to perform your analysis.
+				</header>
+
+				<!-- One -->
+					<section class="wrapper style4 special container 150%">
+						<div class="row 150%">
+							<div class="4u 12u(narrower)">
+
+								<!-- Sidebar -->
+									<div class="sidebar">
+										<section>
+											<header>
+												<h3>Step 1</h3>
+											</header>
+											<p>Align your dataset against your reference genome, and submit the number of reads mapping to each region as a CSV, or directly from Galaxy, HTSeq-count, or Cufflinks.</p>
+											<table style="width:100%;font-size:10pt;">
+											  <tr>
+											    <td width="80" style="vertical-align:middle">
+												<img src="static/images/cell.png" style="width:100%;vertical-align:middle"> 
+											    </td>
+											    <td style="vertical-align:middle"><b>SERF1A</b></td> 
+											    <td style="vertical-align:middle"><b>FABSP1</b></td>
+											    <td style="vertical-align:middle"><b>GAPDH</b></td>
+											    <td style="vertical-align:middle"><b>MCM6</b></td>
+											  </tr>
+											  <tr>
+											    <td>0</td>
+											    <td>18</td> 
+											    <td>3</td>
+											    <td>24</td>
+											    <td>35</td>
+											  </tr>
+											  <tr>
+											    <td>1</td>
+											    <td>9</td> 
+											    <td>10</td>
+											    <td>27</td>
+											    <td>10</td>
+											  </tr>
+											</table>
+											<p>Prepare the file in the above format. <i>Labels</i> could be phenotypes or something similar.</p>
+											<footer>
+												<ul class="buttons">
+													<li><a href="static/sc_example.csv" class="button fit">Download an example</a></li>
+												</ul>
+											</footer>
+										</section>
+
+										<section>
+											<header>
+												<h3>Step 2</h3>
+											</header>
+											<p>Fill in your project and contact information, and upload your file.</p>
+										</section>
+										<section>
+											<header>
+												<h3>Step 3</h3>
+											</header>
+											<p>Await an email confirmation with a link to the results.</p>
+										</section>
+									</div>
+
+							</div>
+							<div class="8u 12u(narrower) important(narrower)">
+						<!-- Content -->
+						    	<section>
+									
+
+									<header>
+										<h3>Submit Job Here</h3>
+									</header>
+									<div class="content">
+										<form action="importcca" method="post" enctype="multipart/form-data">
+
+
+											
+											<div class="row 50%">
+												<div class="11u">
+													<div style="float:right;">
+														<label for="f1">Add microbiota files</label>
+														<input id="f1" type="file" multiple="" name="file1[]" required >
+													</div>
+
+                                                                                                        <div style="float:right;">
+														<label for="f2">Add microarray files</label>
+														<input id="f2" type="file" multiple="" name="file2[]" required >
+													</div>
+
+                                                                                                        <div style="float:right;">
+														<label for="f3">Add immunology files</label>
+														<input id="f3" type="file" multiple="" name="file3[]" required >
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="12u">
+													<ul class="buttons">
+														<li><input type="submit" class="special" value="Submit" /></li>
+													</ul>
+												</div>
+											</div>
+										</form>
+									</div>
+								</section>
+						</div>
+					</section>
+			</article>
+
+{% endblock %}

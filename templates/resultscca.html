@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+		<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon kmrn fa-area-chart"></span>
+					<h2>Analysis Results</h2><hr>
+{% if noresult == 0 %}
+<form action={{ durl }} method="get">
+    <input type="submit" value="Download Results">
+</form>
+<br>
+<section>
+
+
+
+<section>
+<header>
+  <strong style="float:left;color:#721B24">Analysis Graphs</strong>
+</header>
+<br>
+<table style="border:0px">
+<tr><td style="border:0px;vertical-align:middle"><strong>Immunology Scores</strong> <br><p><strong></strong> 
+<br><strong></strong> </p></td><td style="border:0px;vertical-align:middle"><img align="middle" src={{images[0]}}></td></tr>
+  <tr><td style="border:0px;vertical-align:middle"><strong>SeedLevel2Scores</strong></td><td style="border:0px;vertical-align:middle"><img align="middle" src={{images[1]}}></td></tr>
+</table>
+</section>
+
+{% else %}
+<a>{{contents}}<a>
+{% endif %}
+				</header>
+			</article>
+
+{% endblock %}
