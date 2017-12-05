@@ -2,45 +2,45 @@
 file1_name= strsplit(args[1],'[.]')[[1]][1]
 file2_name= strsplit(args[2],'[.]')[[1]][1]
 
-microb <- read.table(file.path("/home/ratanond/Desktop/Masters_Project/Desktop_version",args[1]), sep = ',')
-microb <- microb[,-1]
-microb <- as.matrix(apply(microb,2,as.numeric))
-sd1 <- apply(microb,2,sd)
-microb <- microb[,which(sd1 != 0)]  # choose only OTUs with non-zero standard deviation
-#head(t(microb))
+input1 <- read.csv(file.path("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/input_store",args[1]), sep = ',')
+input1 <- input1[,-1]
+input1 <- as.matrix(apply(input1,2,as.numeric))
+sd1 <- apply(input1,2,sd)
+input1 <- input1[,which(sd1 != 0)]  # choose only OTUs with non-zero standard deviation
+#head(t(input1))
 
-rnaseq <- read.table(file.path("/home/ratanond/Desktop/Masters_Project/Desktop_version",args[2]), sep = ',')
-rnaseq <- rnaseq[,-1]
-rnaseq <- as.matrix(apply(rnaseq,2,as.numeric))
-sd2 <- apply(rnaseq,2,sd)
-rnaseq <- rnaseq[,which(sd2 != 0)]
+input2 <- read.csv(file.path("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/input_store",args[2]), sep = ',')
+input2 <- input2[,-1]
+input2 <- as.matrix(apply(input2,2,as.numeric))
+sd2 <- apply(input2,2,sd)
+input2 <- input2[,which(sd2 != 0)]
 
 library(PMA)
 set.seed(1105)
-ccaPerm_old = CCA.permute(x = microb, z = rnaseq,
+ccaPerm = CCA.permute(x = input1, z = input2,
                            typex = "standard", typez = "standard", 
                            nperms = 30, niter = 5, standardize = T)
-penXtemp = ccaPerm_old$bestpenaltyx
-penZtemp = ccaPerm_old$bestpenaltyz
-ccaRslt_old = CCA(x = microb, z = rnaseq,
+penXtemp = ccaPerm$bestpenaltyx
+penZtemp = ccaPerm$bestpenaltyz
+ccaRslt = CCA(x = input1, z = input2,
                    typex = "standard", typez = "standard",
                    penaltyx = penXtemp, penaltyz = penZtemp,
                    K = 2, niter = 5, standardize = T)
-sum(ccaRslt_old$u != 0)
-sum(ccaRslt_old$v != 0)
+sum(ccaRslt$u != 0)
+sum(ccaRslt$v != 0)
 
-ccaScoreU_old = microb %*% ccaRslt_old$u
-ccaScoreV_old = rnaseq %*% ccaRslt_old$v
-ccaScores_old = cbind(ccaScoreU_old, ccaScoreV_old)
-colnames(ccaScores_old) = c("U1", "U2", "V1", "V2")
-ccaScores_old = as.data.frame(ccaScores_old)
+ccaScoreU = input1 %*% ccaRslt$u
+ccaScoreV = input2 %*% ccaRslt$v
+ccaScores = cbind(ccaScoreU, ccaScoreV)
+colnames(ccaScores) = c("U1", "U2", "V1", "V2")
+ccaScores = as.data.frame(ccaScores)
 #number of each type should be flexible
-len = dim(microb)[1]
-ccaScores_old$type = c(rep("class 1", len/2), rep("class 2", len/2))
+len = dim(input1)[1]
+ccaScores$type = c(rep("class 1", len/2), rep("class 2", len/2))
 
 
 library(ggplot2)
-myCCAPlot = function(x = U1, y = U2, col = V1, shape = type, data = ccaScores_old,
+myCCAPlot = function(x = U1, y = U2, col = V1, shape = type, data = ccaScores,
                      xyName = file1_name, coloName = file2_name,
                      textVjust = -1.0, elliLev = 0.6, ...){
   jitterPara = list(...)
@@ -86,13 +86,13 @@ myCCAPlot = function(x = U1, y = U2, col = V1, shape = type, data = ccaScores_ol
 ## Write output files (1 csv + 2 pdf)
 
 
-pdf(file.path("/home/ratanond/Desktop/Masters_Project/Desktop_version",paste(file1_name,'.pdf', sep="")),bg="transparent")
+pdf(file.path("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/output",paste(file1_name,'.pdf', sep="")),bg="transparent")
 myCCAPlot()
 dev.off()
-pdf(file.path("/home/ratanond/Desktop/Masters_Project/Desktop_version",paste(file2_name,'.pdf', sep="")),bg="transparent")
+pdf(file.path("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/output",paste(file2_name,'.pdf', sep="")),bg="transparent")
 myCCAPlot(V1, V2, U1, xyName = file2_name, coloName = file1_name)
 dev.off()
 
-outfile = file.path("/home/ratanond/Desktop/Masters_Project/Desktop_version",  
+outfile = file.path("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/output",  
                     paste("randname","-", "ccaImmunScores", ".csv",sep=""))
-write.csv(x = ccaScores_old, file = outfile)
+write.csv(x = ccaScores, file = outfile)

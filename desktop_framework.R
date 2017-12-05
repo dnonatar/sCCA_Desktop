@@ -1,11 +1,11 @@
 ## Check if the database exists
 library('RSQLite')
-if(!file.exists("/home/ratanond/Desktop/Masters_Project/Desktop_version/tool.db")){
+if(!file.exists("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/tool.db")){
   stop("Database does not exist!")
 }
 
 #Connect to the database
-db = dbConnect(SQLite(), dbname = "/home/ratanond/Desktop/Masters_Project/Desktop_version/tool.db")
+db = dbConnect(SQLite(), dbname = "/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/tool.db")
 writeLines("Starting Sparse Canonical Correlation Analysis")
 
 while(TRUE) {
@@ -21,7 +21,7 @@ if(nrow(res) > 0){
 
 result <- tryCatch({
 # Use print.eval=T to get plots output  
-source("/home/ratanond/Desktop/Masters_Project/Desktop_version/CCA_anlys.R", echo = T, print.eval = T)
+source("/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/CCA_anlys.R", echo = T, print.eval = T)
 #write.csv(x = ccaScores_old, file = outfile)
 
 dbSendQuery(conn = db, sprintf("update ccajobs set status='Complete' where id=%s",row[1,6]))

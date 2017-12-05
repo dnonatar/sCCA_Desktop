@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
-DATABASE = "/home/ratanond/Desktop/Masters_Project/CCA/Lab_Experiment/tool.db" 
+DATABASE = "/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/tool.db" 
 
 def connect_to_database():
     return sqlite3.connect(DATABASE)
@@ -95,13 +95,13 @@ def import_cca():
 	description = request.form.get('description')
 
 	if input1 and allowed_file(input1.filename):
-	   dir1 = "/home/ratanond/Desktop/Masters_Project/CCA/Lab_Experiment/"
+	   dir1 = "/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/input_store/"
 	   inputname1 = secure_filename(input1.filename)
 	   input1.save(os.path.join(dir1, inputname1))
 	    
 
 	if file and allowed_file(input2.filename):
-	   dir2 = "/home/ratanond/Desktop/Masters_Project/CCA/Lab_Experiment/"
+	   dir2 = "/home/ratanond/Desktop/Masters_Project/sCCA_Desktop/input_store/"
 	   inputname2 = secure_filename(input2.filename)
 	   input2.save(os.path.join(dir2, inputname2))
 
